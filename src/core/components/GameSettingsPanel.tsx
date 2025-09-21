@@ -69,10 +69,11 @@ export const GameSettingsPanel = ({
                 onClick={() => onDifficultyChange(option.value)}
                 variant="outline"
                 size="sm"
-                className={`${difficulty === option.value
+                className={`${
+                  difficulty === option.value
                     ? 'border-blue-500 bg-blue-600 text-white'
                     : 'border-zinc-600 bg-zinc-800 text-zinc-200 hover:bg-zinc-700 hover:text-white'
-                  } rounded-none`}
+                } rounded-none`}
               >
                 {option.label}
               </Button>

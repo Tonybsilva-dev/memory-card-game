@@ -13,8 +13,8 @@ export const AchievementsPanel = memo<AchievementsPanelProps>(
     const stats = getAchievementStats(achievements);
 
     return (
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 transition-opacity duration-300 animate-in slide-in-from-bottom-4 fade-in">
-        <div className="mx-4 flex max-h-[80vh] w-full max-w-2xl flex-col rounded-lg bg-zinc-800 transform transition-all duration-300 scale-100 opacity-100">
+      <div className="bg-opacity-50 animate-in slide-in-from-bottom-4 fade-in fixed inset-0 z-50 flex items-center justify-center bg-black transition-opacity duration-300">
+        <div className="mx-4 flex max-h-[80vh] w-full max-w-2xl scale-100 transform flex-col rounded-lg bg-zinc-800 opacity-100 transition-all duration-300">
           {/* Header fixo */}
           <div className="flex flex-shrink-0 items-center justify-between border-b border-zinc-700 p-6">
             <h2 className="flex items-center gap-2 text-2xl font-bold text-white">
@@ -25,7 +25,7 @@ export const AchievementsPanel = memo<AchievementsPanelProps>(
             </h2>
             <button
               onClick={onClose}
-              className="text-2xl text-zinc-400 transition-all duration-200 hover:text-white hover:scale-110"
+              className="text-2xl text-zinc-400 transition-all duration-200 hover:scale-110 hover:text-white"
             >
               ×
             </button>
@@ -59,13 +59,14 @@ export const AchievementsPanel = memo<AchievementsPanelProps>(
 
             {/* Lista de conquistas */}
             <div className="space-y-3">
-              {achievements.map((achievement) => (
+              {achievements.map(achievement => (
                 <div
                   key={achievement.id}
-                  className={`rounded-lg border-2 p-4 transition-all duration-300 hover:scale-102 ${achievement.unlocked
-                    ? 'border-green-500 bg-green-900 text-green-100'
-                    : 'border-zinc-600 bg-zinc-700 text-zinc-300'
-                    }`}
+                  className={`rounded-lg border-2 p-4 transition-all duration-300 hover:scale-102 ${
+                    achievement.unlocked
+                      ? 'border-green-500 bg-green-900 text-green-100'
+                      : 'border-zinc-600 bg-zinc-700 text-zinc-300'
+                  }`}
                 >
                   <div className="flex items-center gap-3">
                     <div
@@ -102,7 +103,7 @@ export const AchievementsPanel = memo<AchievementsPanelProps>(
             <div className="mt-6">
               <button
                 onClick={onClose}
-                className="w-full rounded-none border border-zinc-600 bg-zinc-800 px-4 py-2 text-zinc-200 transition-all duration-200 hover:bg-zinc-700 hover:text-white hover:scale-105"
+                className="w-full rounded-none border border-zinc-600 bg-zinc-800 px-4 py-2 text-zinc-200 transition-all duration-200 hover:scale-105 hover:bg-zinc-700 hover:text-white"
               >
                 Fechar
               </button>

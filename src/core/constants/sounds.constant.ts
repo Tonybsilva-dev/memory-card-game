@@ -5,21 +5,21 @@
 
 export const SOUNDS = {
   // Sons de cartas
-  CARD_FLIP: '/src/assets/sounds/hit-sound.mp3',
-  CARD_MATCH: '/src/assets/sounds/hit-sound.mp3',
-  CARD_MISMATCH: '/src/assets/sounds/mismatch-sound.mp3',
+  CARD_FLIP: '/sounds/hit-sound.mp3',
+  CARD_MATCH: '/sounds/hit-sound.mp3',
+  CARD_MISMATCH: '/sounds/mismatch-sound.mp3',
 
   // Sons de jogo
-  GAME_START: '/src/assets/sounds/hit-sound.mp3',
-  GAME_COMPLETE: '/src/assets/sounds/winner-sound.mp3',
-  GAME_OVER: '/src/assets/sounds/hit-sound.mp3',
+  GAME_START: '/sounds/hit-sound.mp3',
+  GAME_COMPLETE: '/sounds/winner-sound.mp3',
+  GAME_OVER: '/sounds/hit-sound.mp3',
 
   // Sons de interface
-  BUTTON_CLICK: '/src/assets/sounds/hit-sound.mp3',
-  NOTIFICATION: '/src/assets/sounds/hit-sound.mp3',
+  BUTTON_CLICK: '/sounds/hit-sound.mp3',
+  NOTIFICATION: '/sounds/hit-sound.mp3',
 
   // Sons de conquistas
-  ACHIEVEMENT_UNLOCK: '/src/assets/sounds/hit-sound.mp3',
+  ACHIEVEMENT_UNLOCK: '/sounds/hit-sound.mp3',
 } as const;
 
 /**

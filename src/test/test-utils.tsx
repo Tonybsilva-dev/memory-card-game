@@ -2,6 +2,7 @@ import type { ReactElement } from 'react';
 
 import { render } from '@testing-library/react';
 import type { RenderOptions } from '@testing-library/react';
+
 // import { BrowserRouter } from 'react-router-dom';
 
 // Função customizada de render que inclui providers necessários
@@ -17,10 +18,5 @@ const customRender = (
 };
 
 // Re-exporta apenas o que é necessário para evitar problemas com React Refresh
-export {
-  screen,
-  fireEvent,
-  waitFor,
-  act,
-} from '@testing-library/react';
+export { screen, fireEvent, waitFor, act } from '@testing-library/react';
 export { customRender as render };

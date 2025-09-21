@@ -123,10 +123,11 @@ export const GameSettingsRefactored = memo<GameSettingsRefactoredProps>(
                     onChange={e =>
                       handlePlayerNameChange(index, e.target.value)
                     }
-                    className={`flex-1 rounded border bg-zinc-700 p-2 text-white ${arePlayerNamesValid === false
+                    className={`flex-1 rounded border bg-zinc-700 p-2 text-white ${
+                      arePlayerNamesValid === false
                         ? 'border-red-500'
                         : 'border-zinc-600'
-                      }`}
+                    }`}
                     placeholder={`Player ${index + 1}`}
                   />
                   {(playerNames?.length || 0) > getMinPlayers() && (
@@ -166,10 +167,11 @@ export const GameSettingsRefactored = memo<GameSettingsRefactoredProps>(
               <button
                 key={option.value}
                 onClick={() => handleDifficultyChange(option.value)}
-                className={`rounded p-2 text-sm font-medium ${difficulty === option.value
+                className={`rounded p-2 text-sm font-medium ${
+                  difficulty === option.value
                     ? 'bg-blue-600 text-white'
                     : 'bg-zinc-700 text-zinc-300 hover:bg-zinc-600'
-                  }`}
+                }`}
               >
                 <div className="flex items-center gap-1">
                   <span>{option.icon}</span>

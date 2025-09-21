@@ -112,7 +112,7 @@ export const Confetti = ConfettiComponent;
 
 interface ConfettiButtonProps extends React.ComponentProps<'button'> {
   options?: ConfettiOptions &
-  ConfettiGlobalOptions & { canvas?: HTMLCanvasElement };
+    ConfettiGlobalOptions & { canvas?: HTMLCanvasElement };
 }
 
 const ConfettiButtonComponent = ({

@@ -52,9 +52,9 @@ export const calculateScore = (
 
   const finalScore = Math.round(
     (baseScore + timeBonus + movesBonus) *
-    difficultyMultiplier *
-    streakMultiplier *
-    gameModeMultiplier,
+      difficultyMultiplier *
+      streakMultiplier *
+      gameModeMultiplier,
   );
 
   return {
