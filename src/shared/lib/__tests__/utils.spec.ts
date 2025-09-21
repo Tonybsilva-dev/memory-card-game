@@ -8,8 +8,9 @@ describe('cn utility', () => {
   });
 
   it('should handle conditional classes', () => {
-    expect(cn('base', true && 'conditional')).toBe('base conditional');
-    expect(cn('base', false && 'conditional')).toBe('base');
+    const condition = true;
+    expect(cn('base', condition && 'conditional')).toBe('base conditional');
+    expect(cn('base', !condition && 'conditional')).toBe('base');
   });
 
   it('should handle undefined and null values', () => {
