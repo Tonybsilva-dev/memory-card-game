@@ -9,7 +9,9 @@ import { router } from './shared/routes/index.tsx';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <RouterProvider router={router} />
-    <Analytics />
+    <div>
+      <RouterProvider router={router} />
+      <Analytics />
+    </div>
   </StrictMode>,
 );
