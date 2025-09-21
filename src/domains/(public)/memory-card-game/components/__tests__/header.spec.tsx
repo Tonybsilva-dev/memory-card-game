@@ -29,18 +29,18 @@ describe('Header Component', () => {
     render(<Header {...mockProps} />);
 
     // Verifica se o header está renderizado
-    const header = screen.getByText('Memory Card Game').closest('div');
+    const header = screen.getByText('Memory Card Game').closest('header');
     expect(header).toBeInTheDocument();
     expect(header).toHaveClass(
       'flex',
+      'w-full',
       'items-center',
       'justify-between',
-      'w-full',
+      'border-b',
+      'border-zinc-700',
       'bg-zinc-900',
       'px-6',
       'py-3',
-      'border-b',
-      'border-zinc-700',
     );
   });
 
@@ -64,7 +64,9 @@ describe('Header Component', () => {
   it('should call onShare when share button is clicked', () => {
     render(<Header {...mockProps} />);
 
-    const shareButton = screen.getByRole('button', { name: /share/i });
+    const shareButton = screen.getByRole('button', {
+      name: /compartilhar resultado/i,
+    });
     fireEvent.click(shareButton);
 
     expect(mockProps.onShare).toHaveBeenCalledTimes(1);
@@ -82,17 +84,17 @@ describe('Header Component', () => {
   it('should have correct styling classes', () => {
     render(<Header {...mockProps} />);
 
-    const header = screen.getByText('Memory Card Game').closest('div');
+    const header = screen.getByText('Memory Card Game').closest('header');
     expect(header).toHaveClass(
       'flex',
+      'w-full',
       'items-center',
       'justify-between',
-      'w-full',
+      'border-b',
+      'border-zinc-700',
       'bg-zinc-900',
       'px-6',
       'py-3',
-      'border-b',
-      'border-zinc-700',
     );
 
     const title = screen.getByText('Memory Card Game');
@@ -124,16 +126,16 @@ describe('Header Component', () => {
 
     // Verifica estrutura inicial
     expect(screen.getByText('Memory Card Game')).toBeInTheDocument();
-    expect(screen.getByText('Restart')).toBeInTheDocument();
-    expect(screen.getByText('Leaderboard')).toBeInTheDocument();
+    expect(screen.getByText('Reiniciar jogo')).toBeInTheDocument();
+    // Leaderboard foi movido para o dropdown
 
     // Re-renderiza
     rerender(<Header {...mockProps} />);
 
     // Verifica se a estrutura se mantém
     expect(screen.getByText('Memory Card Game')).toBeInTheDocument();
-    expect(screen.getByText('Restart')).toBeInTheDocument();
-    expect(screen.getByText('Leaderboard')).toBeInTheDocument();
+    expect(screen.getByText('Reiniciar jogo')).toBeInTheDocument();
+    // Leaderboard foi movido para o dropdown
   });
 
   it('should pass correct props to SettingsDropdown', () => {

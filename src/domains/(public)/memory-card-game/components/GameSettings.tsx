@@ -173,7 +173,11 @@ export const GameSettings = memo<GameSettingsProps>(
     const formattedTime = formatTime(time);
 
     return (
-      <div className="h-full w-80 overflow-y-auto bg-zinc-900 p-6">
+      <aside
+        className="h-full w-80 overflow-y-auto bg-zinc-900 p-6"
+        role="complementary"
+        aria-label="Configurações do jogo"
+      >
         {/* Modo de Jogo */}
         <div className="mb-6">
           <h3 className="mb-4 flex items-center gap-2 text-sm font-semibold text-white">
@@ -425,7 +429,7 @@ export const GameSettings = memo<GameSettingsProps>(
             </div>
           </div>
         )}
-      </div>
+      </aside>
     );
   },
 );

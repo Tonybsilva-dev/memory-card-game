@@ -1,5 +1,7 @@
 import { Header } from '../../domains/(public)/memory-card-game/components/Header';
 import { SheetLeaderBoard } from '../../domains/(public)/memory-card-game/components/SheetLeaderBoard';
+import { SEOHead } from '../components/SEOHead';
+import { StructuredData } from '../components/StructuredData';
 
 export interface GameLayoutProps {
   children: React.ReactNode;
@@ -13,6 +15,15 @@ export interface GameLayoutProps {
   isLeaderboardOpen: boolean;
   onCloseLeaderboard: () => void;
 
+  // SEO Props
+  seoTitle?: string;
+  seoDescription?: string;
+  gameMode?: string;
+  difficulty?: string;
+  score?: number;
+  moves?: number;
+  time?: number;
+
   testId?: string;
 }
 
@@ -25,10 +36,32 @@ export const GameLayout = ({
   onShowAchievements,
   isLeaderboardOpen,
   onCloseLeaderboard,
+  seoTitle,
+  seoDescription,
+  gameMode,
+  difficulty,
+  score,
+  moves,
+  time,
   testId = 'game-layout',
 }: GameLayoutProps) => {
   return (
     <div className="min-h-screen bg-zinc-900" data-testid={testId}>
+      {/* SEO Components */}
+      <SEOHead
+        title={seoTitle}
+        description={seoDescription}
+        gameMode={gameMode}
+        difficulty={difficulty}
+        score={score}
+      />
+      <StructuredData
+        gameMode={gameMode}
+        difficulty={difficulty}
+        score={score}
+        moves={moves}
+        time={time}
+      />
       {/* Header fixo */}
       <Header
         onRestart={onRestart}
@@ -48,8 +81,10 @@ export const GameLayout = ({
           </div>
         </div>
 
-        {/* Painel de configurações específico do jogo */}
-        <div className="h-full w-80 bg-zinc-900">{gameSettings}</div>
+        {/* Painel de configurações específico do jogo - Oculto em telas menores que lg */}
+        <div className="hidden h-full w-80 bg-zinc-900 lg:block">
+          {gameSettings}
+        </div>
       </div>
 
       {/* Leaderboard */}

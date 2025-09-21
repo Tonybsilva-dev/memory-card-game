@@ -11,10 +11,12 @@ import {
 
 type SettingsDropdownProps = {
   onShowAchievements?: () => void;
+  onShowLeaderboard?: () => void;
 };
 
 export const SettingsDropdown = ({
   onShowAchievements,
+  onShowLeaderboard,
 }: SettingsDropdownProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const {
@@ -124,9 +126,26 @@ export const SettingsDropdown = ({
                 )}
               </div>
 
-              {/* Botão de Conquistas */}
-              {onShowAchievements && (
-                <div className="border-t border-zinc-700 pt-4">
+              {/* Botões de Ação */}
+              <div className="space-y-2 border-t border-zinc-700 pt-4">
+                {onShowLeaderboard && (
+                  <Button
+                    onClick={() => {
+                      onShowLeaderboard();
+                      setIsOpen(false);
+                    }}
+                    variant="outline"
+                    size="sm"
+                    className="flex w-full items-center gap-2 rounded-none border-zinc-600 bg-zinc-700 text-zinc-200 hover:bg-zinc-600 hover:text-white"
+                  >
+                    <span className="material-symbols-outlined text-base">
+                      leaderboard
+                    </span>
+                    Placar
+                  </Button>
+                )}
+
+                {onShowAchievements && (
                   <Button
                     onClick={() => {
                       onShowAchievements();
@@ -141,8 +160,8 @@ export const SettingsDropdown = ({
                     </span>
                     Minhas conquistas
                   </Button>
-                </div>
-              )}
+                )}
+              </div>
             </div>
           </div>
         </>
