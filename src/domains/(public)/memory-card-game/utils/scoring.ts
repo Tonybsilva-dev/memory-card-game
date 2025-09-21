@@ -7,7 +7,7 @@ export const calculateScore = (
   moves: number,
   time: number,
   difficulty: GameSettings['difficulty'],
-  streak: number,
+  _streak: number,
   maxStreak: number,
   gameMode: GameSettings['gameMode'],
 ): ScoreCalculation => {
@@ -52,9 +52,9 @@ export const calculateScore = (
 
   const finalScore = Math.round(
     (baseScore + timeBonus + movesBonus) *
-      difficultyMultiplier *
-      streakMultiplier *
-      gameModeMultiplier,
+    difficultyMultiplier *
+    streakMultiplier *
+    gameModeMultiplier,
   );
 
   return {

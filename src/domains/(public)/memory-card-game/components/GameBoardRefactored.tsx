@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import { memo } from 'react';
 
 import { useGameConfig } from '../hooks/useGameConfig';
 import { useGameStore } from '../stores/game.store';
@@ -15,11 +15,13 @@ export const GameBoardRefactored = memo<GameBoardRefactoredProps>(
       cards,
       flippedCards,
       matchedPairs,
-      totalPairs,
       isGameComplete,
       isTimeUp,
       players,
       currentPlayer,
+      streak,
+      maxStreak,
+      timeRemaining,
     } = useGameStore();
     const { shouldShow, getMessage, isValidForCurrentMode } = useGameConfig();
 
@@ -129,7 +131,7 @@ export const GameBoardRefactored = memo<GameBoardRefactoredProps>(
             <Card
               key={card.id}
               card={card}
-              onFlip={onCardFlip}
+              onFlip={() => onCardFlip(card.id)}
               canFlip={canFlip(card)}
             />
           ))}
@@ -150,7 +152,7 @@ export const GameBoardRefactored = memo<GameBoardRefactoredProps>(
 
         {/* Progresso do jogo */}
         <div className="text-center text-sm text-zinc-400">
-          {matchedPairs} / {totalPairs} pares encontrados
+          {matchedPairs} / {Math.floor(cards.length / 2)} pares encontrados
         </div>
       </div>
     );

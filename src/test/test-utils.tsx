@@ -1,7 +1,8 @@
-import { ReactElement } from 'react';
+import type { ReactElement } from 'react';
 
-import { render, RenderOptions } from '@testing-library/react';
-import { BrowserRouter } from 'react-router-dom';
+import { render } from '@testing-library/react';
+import type { RenderOptions } from '@testing-library/react';
+// import { BrowserRouter } from 'react-router-dom';
 
 // Função customizada de render que inclui providers necessários
 const customRender = (
@@ -9,7 +10,7 @@ const customRender = (
   options?: Omit<RenderOptions, 'wrapper'>,
 ) => {
   const AllTheProviders = ({ children }: { children: React.ReactNode }) => {
-    return <BrowserRouter>{children}</BrowserRouter>;
+    return <div>{children}</div>; // Simplificado sem router
   };
 
   return render(ui, { wrapper: AllTheProviders, ...options });
@@ -17,7 +18,6 @@ const customRender = (
 
 // Re-exporta apenas o que é necessário para evitar problemas com React Refresh
 export {
-  render,
   screen,
   fireEvent,
   waitFor,

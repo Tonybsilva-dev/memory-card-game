@@ -216,9 +216,9 @@ export const THEME_OPTIONS = [
 ] as const;
 
 export const DIFFICULTY_OPTIONS = [
-  { value: 'easy' as const, label: 'Fácil', icon: '🟢' },
-  { value: 'medium' as const, label: 'Médio', icon: '🟡' },
-  { value: 'hard' as const, label: 'Difícil', icon: '🔴' },
+  { value: 'easy' as const, label: 'Fácil', icon: '🟢', pairs: 10 },
+  { value: 'medium' as const, label: 'Médio', icon: '🟡', pairs: 20 },
+  { value: 'hard' as const, label: 'Difícil', icon: '🔴', pairs: 30 },
 ] as const;
 
 export const GAME_MODE_OPTIONS = [

@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import { AnimatePresence, motion } from 'motion/react';
 
-import { cn } from '@/shared/lib/utils';
+import { cn } from '../../shared/lib/utils';
 
 export const HoverEffect = ({
   items,

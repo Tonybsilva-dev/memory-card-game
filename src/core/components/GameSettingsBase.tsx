@@ -1,4 +1,13 @@
-import type { GameStats } from '../layouts';
+// import type { GameStats } from '../layouts';
+
+interface GameStats {
+  moves: number;
+  time: number;
+  matchedPairs: number;
+  streak?: number;
+  maxStreak?: number;
+  moveTimer?: number;
+}
 
 export interface GameSettingsBaseProps {
   gameStats: GameStats;

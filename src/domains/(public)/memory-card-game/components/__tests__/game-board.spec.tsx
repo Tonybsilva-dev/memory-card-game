@@ -23,6 +23,10 @@ const mockGameState = {
   timeRemaining: 60,
   playerTimeRemaining: undefined,
   playerTimerActive: false,
+  time: 0,
+  isPlaying: false,
+  isLoading: false,
+  achievements: [],
 };
 
 const mockProps = {

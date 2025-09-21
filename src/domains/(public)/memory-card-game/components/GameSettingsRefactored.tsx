@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import { memo } from 'react';
 
 import { useGameConfig } from '../hooks/useGameConfig';
 import { useGameStore } from '../stores/game.store';
@@ -28,7 +28,7 @@ export const GameSettingsRefactored = memo<GameSettingsRefactoredProps>(
       playerNames,
       arePlayerNamesValid,
     } = useGameStore();
-    const { shouldShow, canDo, getMaxPlayers, getMinPlayers } = useGameConfig();
+    const { shouldShow, getMaxPlayers, getMinPlayers } = useGameConfig();
 
     const handleGameModeChange = (newMode: string) => {
       onSettingsChange({ gameMode: newMode });
@@ -123,33 +123,30 @@ export const GameSettingsRefactored = memo<GameSettingsRefactoredProps>(
                     onChange={e =>
                       handlePlayerNameChange(index, e.target.value)
                     }
-                    className={`flex-1 rounded border bg-zinc-700 p-2 text-white ${
-                      arePlayerNamesValid === false
+                    className={`flex-1 rounded border bg-zinc-700 p-2 text-white ${arePlayerNamesValid === false
                         ? 'border-red-500'
                         : 'border-zinc-600'
-                    }`}
+                      }`}
                     placeholder={`Player ${index + 1}`}
                   />
-                  {canDo('removePlayer') &&
-                    (playerNames?.length || 0) > getMinPlayers() && (
-                      <button
-                        onClick={() => removePlayer(index)}
-                        className="rounded bg-red-600 px-3 py-2 text-white hover:bg-red-700"
-                      >
-                        -
-                      </button>
-                    )}
+                  {(playerNames?.length || 0) > getMinPlayers() && (
+                    <button
+                      onClick={() => removePlayer(index)}
+                      className="rounded bg-red-600 px-3 py-2 text-white hover:bg-red-700"
+                    >
+                      -
+                    </button>
+                  )}
                 </div>
               ))}
-              {canDo('addPlayer') &&
-                (playerNames?.length || 0) < getMaxPlayers() && (
-                  <button
-                    onClick={addPlayer}
-                    className="w-full rounded bg-green-600 py-2 text-white hover:bg-green-700"
-                  >
-                    Adicionar Jogador
-                  </button>
-                )}
+              {(playerNames?.length || 0) < getMaxPlayers() && (
+                <button
+                  onClick={addPlayer}
+                  className="w-full rounded bg-green-600 py-2 text-white hover:bg-green-700"
+                >
+                  Adicionar Jogador
+                </button>
+              )}
             </div>
             {arePlayerNamesValid === false && (
               <p className="mt-1 text-sm text-red-400">
@@ -169,11 +166,10 @@ export const GameSettingsRefactored = memo<GameSettingsRefactoredProps>(
               <button
                 key={option.value}
                 onClick={() => handleDifficultyChange(option.value)}
-                className={`rounded p-2 text-sm font-medium ${
-                  difficulty === option.value
+                className={`rounded p-2 text-sm font-medium ${difficulty === option.value
                     ? 'bg-blue-600 text-white'
                     : 'bg-zinc-700 text-zinc-300 hover:bg-zinc-600'
-                }`}
+                  }`}
               >
                 <div className="flex items-center gap-1">
                   <span>{option.icon}</span>

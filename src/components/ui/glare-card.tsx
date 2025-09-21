@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 
-import { cn } from '@/shared/lib/utils';
+import { cn } from '../../shared/lib/utils';
 
 export const GlareCard = ({
   children,
