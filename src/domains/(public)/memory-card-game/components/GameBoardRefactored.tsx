@@ -22,6 +22,7 @@ export const GameBoardRefactored = memo<GameBoardRefactoredProps>(
       streak,
       maxStreak,
       timeRemaining,
+      difficulty,
     } = useGameStore();
     const { shouldShow, getMessage, isValidForCurrentMode } = useGameConfig();
 
@@ -37,6 +38,20 @@ export const GameBoardRefactored = memo<GameBoardRefactoredProps>(
       }
 
       return true;
+    };
+
+    // Função para obter o tamanho do espaço vazio baseado na dificuldade
+    const getEmptySpaceSize = () => {
+      switch (difficulty) {
+        case 'easy':
+          return 'h-20 w-20 sm:h-24 sm:w-24'; // Cards maiores para fácil
+        case 'medium':
+          return 'h-16 w-16 sm:h-20 sm:w-20'; // Cards médios para médio
+        case 'hard':
+          return 'h-14 w-14 sm:h-16 sm:w-16'; // Cards menores para difícil
+        default:
+          return 'h-16 w-16 sm:h-20 sm:w-20';
+      }
     };
 
     const getInitialMessage = () => {
@@ -127,14 +142,29 @@ export const GameBoardRefactored = memo<GameBoardRefactoredProps>(
 
         {/* Grid de cartas */}
         <div className="mb-6 grid grid-cols-4 gap-2">
-          {cards.map(card => (
-            <Card
-              key={card.id}
-              card={card}
-              onFlip={() => onCardFlip(card.id)}
-              canFlip={canFlip(card)}
-            />
-          ))}
+          {cards.map(card => {
+            // Se a carta foi matched, renderiza um espaço vazio
+            if (card.isMatched) {
+              return (
+                <div
+                  key={card.id}
+                  className={getEmptySpaceSize()} // Tamanho responsivo baseado na dificuldade
+                  aria-hidden="true"
+                />
+              );
+            }
+
+            // Renderiza a carta normalmente se não foi matched
+            return (
+              <Card
+                key={card.id}
+                card={card}
+                onFlip={() => onCardFlip(card.id)}
+                canFlip={canFlip(card)}
+                difficulty={difficulty}
+              />
+            );
+          })}
         </div>
 
         {/* Mensagens baseadas na configuração */}

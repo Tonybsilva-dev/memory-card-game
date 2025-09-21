@@ -22,6 +22,7 @@ export const Card = memo<CardProps>(
     canFlip = true,
     theme = 'avataaars',
     difficulty = 'easy',
+    isShowingMatch = false,
   }) => {
     const [imageError, setImageError] = useState(false);
 
@@ -63,6 +64,9 @@ export const Card = memo<CardProps>(
             isDisabled && 'cursor-not-allowed opacity-50',
             !isDisabled && !card.isMatched && 'cursor-pointer',
             isMatched && 'scale-95',
+            // Animação de match
+            isShowingMatch &&
+              'scale-110 animate-pulse border-green-400 bg-green-500/20 shadow-lg shadow-green-400/50',
           )}
           onClick={handleFlip}
           disabled={isDisabled || card.isMatched || !canFlip}
@@ -85,6 +89,8 @@ export const Card = memo<CardProps>(
                 CARD_STYLES.base,
                 CARD_STYLES.back,
                 isMatched && CARD_STYLES.matched,
+                // Efeito especial para match
+                isShowingMatch && 'border-green-400 bg-green-500/30',
               )}
               aria-hidden="true"
             >

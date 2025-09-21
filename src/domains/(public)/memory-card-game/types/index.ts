@@ -24,6 +24,7 @@ export interface GameState {
   isTimeUp?: boolean; // se o tempo acabou no modo timer
   playerTimeRemaining?: number; // tempo restante do jogador atual no multiplayer
   playerTimerActive?: boolean; // se o timer do jogador está ativo
+  showingMatch?: boolean; // se está mostrando animação de match
 }
 
 // Game settings types
@@ -159,6 +160,7 @@ export interface CardProps {
   canFlip?: boolean;
   theme?: string;
   difficulty?: 'easy' | 'medium' | 'hard';
+  isShowingMatch?: boolean;
 }
 
 export interface GameSettingsProps {

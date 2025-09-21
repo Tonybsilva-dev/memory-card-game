@@ -18,6 +18,7 @@ export const GameBoard = memo<GameBoardProps>(
       players,
       isTimeUp,
       matchedPairs,
+      showingMatch,
     } = gameState;
 
     const { shouldShow, getMessage } = useGameConfig();
@@ -168,16 +169,45 @@ export const GameBoard = memo<GameBoardProps>(
           aria-live="polite"
           aria-atomic="true"
         >
-          {cards.map(card => (
-            <Card
-              key={card.id}
-              card={card}
-              onFlip={() => handleCardFlip(card.id)}
-              isDisabled={card.isMatched}
-              canFlip={flippedCards.length < 2 && !card.isFlipped}
-              difficulty={difficulty}
-            />
-          ))}
+          {cards.map(card => {
+            // Se a carta foi matched, renderiza um espaço vazio
+            if (card.isMatched) {
+              // Função para obter o tamanho do espaço vazio baseado na dificuldade
+              const getEmptySpaceSize = () => {
+                switch (difficulty) {
+                  case 'easy':
+                    return 'h-20 w-20 sm:h-24 sm:w-24'; // Cards maiores para fácil
+                  case 'medium':
+                    return 'h-16 w-16 sm:h-20 sm:w-20'; // Cards médios para médio
+                  case 'hard':
+                    return 'h-14 w-14 sm:h-16 sm:w-16'; // Cards menores para difícil
+                  default:
+                    return 'h-16 w-16 sm:h-20 sm:w-20';
+                }
+              };
+
+              return (
+                <div
+                  key={card.id}
+                  className={getEmptySpaceSize()} // Tamanho responsivo baseado na dificuldade
+                  aria-hidden="true"
+                />
+              );
+            }
+
+            // Renderiza a carta normalmente se não foi matched
+            return (
+              <Card
+                key={card.id}
+                card={card}
+                onFlip={() => handleCardFlip(card.id)}
+                isDisabled={card.isMatched}
+                canFlip={flippedCards.length < 2 && !card.isFlipped}
+                difficulty={difficulty}
+                isShowingMatch={showingMatch && flippedCards.includes(card.id)}
+              />
+            );
+          })}
         </section>
 
         {/* Mensagem de jogo completo ou tempo esgotado */}

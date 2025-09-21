@@ -26,6 +26,7 @@ interface GameStore
   cards: Card[];
   flippedCards: string[];
   isLoading: boolean;
+  showingMatch: boolean; // Estado para controlar animação de match
 
   // Timer
   timer: NodeJS.Timeout | null;
@@ -62,6 +63,9 @@ interface GameStore
   startPlayerTimer: () => void;
   updatePlayerTimer: () => void;
   stopPlayerTimer: () => void;
+
+  // Match animation actions
+  setShowingMatch: (showing: boolean) => void;
 }
 
 // Função para gerar URLs do DiceBear baseadas no tema e identificador
@@ -202,6 +206,7 @@ export const useGameStore = create<GameStore>()(
       timeRemaining: undefined,
       playerTimeRemaining: undefined,
       playerTimerActive: false,
+      showingMatch: false,
 
       // Timers
       timer: null,
@@ -399,6 +404,12 @@ export const useGameStore = create<GameStore>()(
         // Tocar som de virada de carta
         soundController.play('CARD_FLIP');
 
+        // Atualizar o estado imediatamente para mostrar o segundo card virado
+        set({
+          cards: newCards,
+          flippedCards: newFlippedCards,
+        });
+
         if (newFlippedCards.length === 2) {
           const [firstId, secondId] = newFlippedCards;
           const firstCard = newCards.find(card => card.id === firstId);
@@ -412,80 +423,95 @@ export const useGameStore = create<GameStore>()(
             // Par encontrado!
             soundController.play('CARD_MATCH');
 
-            const updatedCards = newCards.map(card =>
-              card.id === firstId || card.id === secondId
-                ? { ...card, isMatched: true }
-                : card,
-            );
-
-            const newMatchedPairs = state.matchedPairs + 1;
-            const newStreak = state.streak + 1;
-            const newMaxStreak = Math.max(state.maxStreak, newStreak);
-
-            const difficultyConfig = DIFFICULTY_LEVELS[state.difficulty];
-            const isGameComplete = newMatchedPairs === difficultyConfig.pairs;
-
-            // Verificar se é modo timer e tempo acabou
-            const timeUp =
-              state.gameMode === 'timer' &&
-              state.timeRemaining !== undefined &&
-              isTimeUp(state.timeRemaining);
-
-            // Atualizar jogador atual no multiplayer
-            let updatedPlayers = state.players;
-            if (state.gameMode === 'multiplayer' && state.players) {
-              updatedPlayers = state.players.map(player => {
-                if (player.isActive) {
-                  return {
-                    ...player,
-                    matchedPairs: player.matchedPairs + 1,
-                    moves: player.moves + 1,
-                  };
-                }
-                return player;
-              });
-            }
-
-            // Marcar vencedor no multiplayer quando o jogo termina
-            let finalPlayers = updatedPlayers;
-            if (
-              isGameComplete &&
-              state.gameMode === 'multiplayer' &&
-              updatedPlayers
-            ) {
-              const winner = updatedPlayers.reduce((prev, current) =>
-                current.matchedPairs > prev.matchedPairs ? current : prev,
-              );
-              finalPlayers = updatedPlayers.map(player => ({
-                ...player,
-                isWinner: player.id === winner.id,
-              }));
-            }
-
+            // Primeiro, mostrar a animação de match
             set({
-              cards: updatedCards,
-              flippedCards: [],
-              matchedPairs: newMatchedPairs,
-              moves: newMoves,
-              streak: newStreak,
-              maxStreak: newMaxStreak,
-              isGameComplete: isGameComplete,
-              isPlaying: !isGameComplete && !timeUp,
-              players: finalPlayers,
+              showingMatch: true,
+              flippedCards: newFlippedCards, // Manter as cartas viradas para mostrar o match
             });
 
-            // Parar timer do jogador no multiplayer quando um par é encontrado
-            if (state.gameMode === 'multiplayer') {
-              get().stopPlayerTimer();
-            }
+            // Depois de 1.5 segundos, processar o match e remover as cartas
+            setTimeout(() => {
+              const currentState = get();
+              const updatedCards = currentState.cards.map(card =>
+                card.id === firstId || card.id === secondId
+                  ? { ...card, isMatched: true }
+                  : card,
+              );
 
-            // Verificar conquistas
-            get().checkAchievements();
+              const newMatchedPairs = currentState.matchedPairs + 1;
+              const newStreak = currentState.streak + 1;
+              const newMaxStreak = Math.max(currentState.maxStreak, newStreak);
 
-            // Tocar som de jogo completo
-            if (isGameComplete) {
-              soundController.play('GAME_COMPLETE');
-            }
+              const difficultyConfig =
+                DIFFICULTY_LEVELS[currentState.difficulty];
+              const isGameComplete = newMatchedPairs === difficultyConfig.pairs;
+
+              // Verificar se é modo timer e tempo acabou
+              const timeUp =
+                currentState.gameMode === 'timer' &&
+                currentState.timeRemaining !== undefined &&
+                isTimeUp(currentState.timeRemaining);
+
+              // Atualizar jogador atual no multiplayer
+              let updatedPlayers = currentState.players;
+              if (
+                currentState.gameMode === 'multiplayer' &&
+                currentState.players
+              ) {
+                updatedPlayers = currentState.players.map(player => {
+                  if (player.isActive) {
+                    return {
+                      ...player,
+                      matchedPairs: player.matchedPairs + 1,
+                      moves: player.moves + 1,
+                    };
+                  }
+                  return player;
+                });
+              }
+
+              // Marcar vencedor no multiplayer quando o jogo termina
+              let finalPlayers = updatedPlayers;
+              if (
+                isGameComplete &&
+                currentState.gameMode === 'multiplayer' &&
+                updatedPlayers
+              ) {
+                const winner = updatedPlayers.reduce((prev, current) =>
+                  current.matchedPairs > prev.matchedPairs ? current : prev,
+                );
+                finalPlayers = updatedPlayers.map(player => ({
+                  ...player,
+                  isWinner: player.id === winner.id,
+                }));
+              }
+
+              set({
+                cards: updatedCards,
+                flippedCards: [],
+                matchedPairs: newMatchedPairs,
+                moves: newMoves,
+                streak: newStreak,
+                maxStreak: newMaxStreak,
+                isGameComplete: isGameComplete,
+                isPlaying: !isGameComplete && !timeUp,
+                players: finalPlayers,
+                showingMatch: false, // Finalizar animação
+              });
+
+              // Parar timer do jogador no multiplayer quando um par é encontrado
+              if (currentState.gameMode === 'multiplayer') {
+                get().stopPlayerTimer();
+              }
+
+              // Verificar conquistas
+              get().checkAchievements();
+
+              // Tocar som de jogo completo
+              if (isGameComplete) {
+                soundController.play('GAME_COMPLETE');
+              }
+            }, 1500); // 1.5 segundos de animação
           } else {
             // Par não encontrado - tocar som de erro
             soundController.play('CARD_MISMATCH');
@@ -882,6 +908,9 @@ export const useGameStore = create<GameStore>()(
           playerTimer: null,
         });
       },
+
+      // Match animation actions
+      setShowingMatch: (showing: boolean) => set({ showingMatch: showing }),
     }),
     {
       name: 'memory-game-storage',
