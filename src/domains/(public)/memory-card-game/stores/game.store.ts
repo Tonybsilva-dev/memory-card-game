@@ -502,6 +502,11 @@ export const useGameStore = create<GameStore>()(
               // Parar timer do jogador no multiplayer quando um par é encontrado
               if (currentState.gameMode === 'multiplayer') {
                 get().stopPlayerTimer();
+
+                // Reiniciar timer para o mesmo jogador continuar jogando
+                setTimeout(() => {
+                  get().startPlayerTimer();
+                }, 1600); // 100ms após a animação terminar
               }
 
               // Verificar conquistas
@@ -518,6 +523,9 @@ export const useGameStore = create<GameStore>()(
 
             // Par não encontrado - passar a vez no multiplayer
             if (state.gameMode === 'multiplayer' && state.players) {
+              // Parar timer do jogador atual
+              get().stopPlayerTimer();
+
               // Atualizar movimentos do jogador atual
               const updatedPlayers = state.players.map(player => {
                 if (player.isActive) {
@@ -551,6 +559,11 @@ export const useGameStore = create<GameStore>()(
                   players: playersWithNextActive,
                   currentPlayer: nextIndex,
                 }));
+
+                // Iniciar timer para o próximo jogador
+                setTimeout(() => {
+                  get().startPlayerTimer();
+                }, 100);
               }, 1000);
 
               set({
