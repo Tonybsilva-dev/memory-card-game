@@ -1,5 +1,6 @@
 import { StrictMode } from 'react';
 
+import { Analytics } from '@vercel/analytics/next';
 import { createRoot } from 'react-dom/client';
 import { RouterProvider } from 'react-router';
 
@@ -9,5 +10,6 @@ import { router } from './shared/routes/index.tsx';
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <RouterProvider router={router} />
+    <Analytics />
   </StrictMode>,
 );
